@@ -9,20 +9,53 @@ class table(object):
         self.centerX = data.width // 2
         self.centerY = data.height // 2
         self.color = "green"
+        self.horiBarLen = data.width
+        self.vertBarLen = data.height
+        self.barWidth = 25
+        self.barColor = "brown"
+
+
 
     def draw(self, canvas):
+
         canvas.create_rectangle(self.centerX - self.width // 2,
                                 self.centerY - self.height // 2,
                                 self.centerX + self.width // 2,
                                 self.centerY + self.height // 2,
                                 fill = self.color
                                 )
+        canvas.create_rectangle(0, 0, self.horiBarLen, self.barWidth,
+                                fill=self.barColor)
+    # def drawPocket(self, data):
+
+
 
 class pocket(object):
 
-    def __init__(self):
+    def __init__(self, x, y):
 
-        pass
+        self.x = x
+        self.y = y
+        self.r = 20
+        self.color = "black"
+        self.barWidth = 20
+
+
+    def addPockets(self, data):
+        data.pockets.append(pocket(self.barWidth + self.r, self.barWidth + self.r))
+        data.pockets.append(pocket(self.barWidth + data.width // 2, self.barWidth + self.r))
+        data.pockets.append(pocket(self.barWidth + data.width - self.r, self.r))
+        data.pockets.append(pocket(self.r, data.height - self.r))
+        data.pockets.append(pocket(data.width // 2, data.height - self.r))
+        data.pockets.append(pocket(data.width - self.r, data.height - self.r))
+
+
+
+    def draw(self, canvas):
+
+        canvas.create_oval(self.x - self.r, self.y - self.r,
+                           self.x + self.r, self.y + self.r,
+                           fill = self.color)
 
 
 
@@ -40,10 +73,17 @@ from tkinter import *
 def init(data):
     # load data.xyz as appropriate
     data.table = table(data, data.width, data.height)
+    data.pockets = []
+    data.pocketInit = pocket(0, 0)
+    data.pocketInit.addPockets(data)
+
+
     pass
 
 def mousePressed(event, data):
     # use event.x and event.y
+    print(len(data.pockets))
+
     pass
 
 def keyPressed(event, data):
@@ -56,6 +96,9 @@ def timerFired(data):
 def redrawAll(canvas, data):
     # draw in canvas
     data.table.draw(canvas)
+
+    for pocket in data.pockets:
+        pocket.draw(canvas)
     pass
 
 ####################################
@@ -105,4 +148,4 @@ def run(width=300, height=300):
     root.mainloop()  # blocks until window is closed
     print("bye!")
 
-run(800, 600)
+run(800, 500)
