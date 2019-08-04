@@ -18,14 +18,31 @@ class table(object):
 
     def draw(self, canvas):
 
+
+
         canvas.create_rectangle(self.centerX - self.width // 2,
                                 self.centerY - self.height // 2,
                                 self.centerX + self.width // 2,
                                 self.centerY + self.height // 2,
                                 fill = self.color
                                 )
+        # first bar (up)
         canvas.create_rectangle(0, 0, self.horiBarLen, self.barWidth,
-                                fill=self.barColor)
+                                fill=self.barColor, width = 0)
+        # second bar (down)
+        canvas.create_rectangle(0, self.height - self.barWidth,
+                                self.horiBarLen, self.height,
+                                fill=self.barColor, width = 0)
+        # third bar (left)
+        canvas.create_rectangle(0, self.barWidth,
+                                self.barWidth, self.vertBarLen,
+                                fill=self.barColor, width = 0)
+        # second bar (down)
+        canvas.create_rectangle(self.width - self.barWidth, 0,
+                                self.width, self.height,
+                                fill=self.barColor, width = 0)
+
+
     # def drawPocket(self, data):
 
 
@@ -42,12 +59,18 @@ class pocket(object):
 
 
     def addPockets(self, data):
-        data.pockets.append(pocket(self.barWidth + self.r, self.barWidth + self.r))
-        data.pockets.append(pocket(self.barWidth + data.width // 2, self.barWidth + self.r))
-        data.pockets.append(pocket(self.barWidth + data.width - self.r, self.r))
-        data.pockets.append(pocket(self.r, data.height - self.r))
-        data.pockets.append(pocket(data.width // 2, data.height - self.r))
-        data.pockets.append(pocket(data.width - self.r, data.height - self.r))
+        data.pockets.append(pocket(self.barWidth + self.r,
+                                   self.barWidth + self.r))
+        data.pockets.append(pocket(data.width // 2,
+                                   self.barWidth + self.r))
+        data.pockets.append(pocket(data.width - self.r - self.barWidth,
+                                   self.r + self.barWidth))
+        data.pockets.append(pocket(self.r + self.barWidth,
+                                   data.height - self.r - self.barWidth))
+        data.pockets.append(pocket(data.width // 2,
+                                   data.height - self.r - self.barWidth))
+        data.pockets.append(pocket(data.width - self.r - self.barWidth,
+                                   data.height - self.r - self.barWidth))
 
 
 
@@ -56,9 +79,6 @@ class pocket(object):
         canvas.create_oval(self.x - self.r, self.y - self.r,
                            self.x + self.r, self.y + self.r,
                            fill = self.color)
-
-
-
 
 
 
