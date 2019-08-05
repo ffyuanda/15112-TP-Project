@@ -106,8 +106,9 @@ def init(data):
     data.balls = []
 
     data.testBall = ball(data.width // 2, data.height // 2, 0, 0, "blue")
-    data.testBall2 = ball(data.width // 3, data.height // 2 + 10, 0, 0, "red")
-    data.testBall2.dx = 5
+    data.testBall2 = ball(data.width // 2 - 50, data.height // 2, 0, 0, "red")
+    data.testBall2.dx = 2
+    data.testBall2.dy = 0
     data.balls.append(data.testBall)
     data.balls.append(data.testBall2)
 
@@ -125,7 +126,7 @@ def keyPressed(event, data):
     pass
 
 def timerFired(data):
-    data.testBall.collide(data.testBall2)
+    data.testBall2.collide(data.testBall)
     for ball in data.balls:
         ball.move()
     pass

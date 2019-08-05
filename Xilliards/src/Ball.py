@@ -6,7 +6,7 @@ from PublicFun import *
 
 
 class ball(object):
-    def __init__(self, cx, cy, angle, force, color, speed = 3, dx = 0, dy = 0):
+    def __init__(self, cx, cy, angle, force, color, speed = 1, dx = 0, dy = 0):
 
         self.cx = cx
         self.cy = cy
@@ -16,9 +16,7 @@ class ball(object):
         self.speed = speed
         self.dx = dx
         self.dy = dy
-
         self.r = 17
-
         self.mass = 6
 
         pass
@@ -26,55 +24,47 @@ class ball(object):
 
 
     def collide(self, other):
-
-        slope = (other.cy - self.cy) / (other.cx - self.cx)
-        # angle = other.cy - self
+        # collision engine
 
         if distance(self.cx, self.cy, other.cx, other.cy) < 2 * self.r:
-            print("YES")
 
+            if self.cy < other.cy and self.cx < other.cx:
+                # second dimension glancing collision
+                print("YES")
+                other.dx = self.dx
+                other.dy = self.dy
+                self.dx, self.dy = self.dy, -self.dx
 
-            if other.cx > self.cx and other.cy < self.cy:
-                # first dimension
+            elif self.cy < other.cy and self.cx > other.cx:
+                # first dimension glancing collision
+                other.dx = self.dx
+                other.dy = self.dy
+                self.dx, self.dy = -self.dy, self.dx
 
-                self.dx = self.speed * slope
-                self.dy = self.dx * slope
-                other.dx = other.speed * -slope
-                other.dy = other.dx * -slope
-            elif other.cx < self.cx and other.cy > self.cy:
-                # third dimension
-                self.dx = self.speed * -slope
-                self.dy = self.dx * slope
-                other.dx = other.speed * slope
-                other.dy = other.dx * slope
-            elif other.cx < self.cx and other.cy < self.cy:
-                # second dimension
+            elif self.cy > other.cy and self.cx > other.cx:
+                # forth dimension glancing collision
+                other.dx = self.dx
+                other.dy = self.dy
+                self.dx, self.dy = self.dy, -self.dx
 
+            elif self.cy > other.cy and self.cx < other.cx:
+                # third dimension glancing collision
+                other.dx = self.dx
+                other.dy = self.dy
+                self.dx, self.dy = -self.dy, self.dx
+
+            elif self.cy == other.cy or self.cx == other.cx:
                 other.dx = self.dx
                 other.dy = self.dy
 
-                self.dx = self.speed
-                self.dy = self.dx * slope
-
-            elif other.cx > self.cx and other.cy > self.cy:
-                # forth dimension
-                self.dx = self.speed * -slope
-                self.dy = self.dx * slope
-                other.dx = other.speed * slope
-                other.dy = other.dx * -slope
-
-
+    def friction(self):
         pass
-    # def collide(self,other):
 
 
-
-
-        pass
     def move(self):
 
-        self.cx += self.dx
-        self.cy += self.dy
+        self.cx += self.dx * self.speed
+        self.cy += self.dy * self.speed
 
 
         pass
