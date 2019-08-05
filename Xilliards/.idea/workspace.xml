@@ -100,9 +100,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="439" />
-    <option name="y" value="-18" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="448" />
+    <option name="y" value="-11" />
     <option name="width" value="981" />
     <option name="height" value="552" />
   </component>
@@ -219,7 +219,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4988086" visible="true" weight="0.22516556" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4988086" visible="true" weight="0.22516556" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39900663" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
