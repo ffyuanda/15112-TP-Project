@@ -1,4 +1,8 @@
-# This is the function in control of the billiards table
+from Ball import *
+
+
+
+# This is the function in control of the billiards table.
 
 class table(object):
 
@@ -82,6 +86,9 @@ class pocket(object):
 
 
 
+# The run fucntions are cited from 15112 course notes:
+# https://www.cs.cmu.edu/~112-n19/notes/notes-animations-part1.html
+
 # Basic Animation Framework
 
 from tkinter import *
@@ -96,13 +103,20 @@ def init(data):
     data.pockets = []
     data.pocketInit = pocket(0, 0)
     data.pocketInit.addPockets(data)
+    data.balls = []
 
+    data.testBall = ball(data.width // 2, data.height // 2, 0, 0, "blue")
+    data.testBall2 = ball(data.width // 3, data.height // 2 + 10, 0, 0, "red")
+    data.testBall2.dx = 5
+    data.balls.append(data.testBall)
+    data.balls.append(data.testBall2)
 
     pass
 
 def mousePressed(event, data):
     # use event.x and event.y
-    print(len(data.pockets))
+
+
 
     pass
 
@@ -111,6 +125,9 @@ def keyPressed(event, data):
     pass
 
 def timerFired(data):
+    data.testBall.collide(data.testBall2)
+    for ball in data.balls:
+        ball.move()
     pass
 
 def redrawAll(canvas, data):
@@ -119,6 +136,8 @@ def redrawAll(canvas, data):
 
     for pocket in data.pockets:
         pocket.draw(canvas)
+    for ball in data.balls:
+        ball.draw(canvas)
     pass
 
 ####################################
@@ -168,4 +187,3 @@ def run(width=300, height=300):
     root.mainloop()  # blocks until window is closed
     print("bye!")
 
-run(800, 500)
