@@ -1,3 +1,3 @@
 from Table import  *
 
-run(800, 500)
+run(1000, 500)

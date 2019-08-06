@@ -1,11 +1,10 @@
 from Ball import *
-
+from PublicFun import *
 
 
 # This is the function in control of the billiards table.
 
 class table(object):
-
 
     def __init__(self, data, width, height):
         self.width = width
@@ -18,37 +17,51 @@ class table(object):
         self.barWidth = 25
         self.barColor = "brown"
 
-
-
     def draw(self, canvas):
-
-
-
         canvas.create_rectangle(self.centerX - self.width // 2,
                                 self.centerY - self.height // 2,
                                 self.centerX + self.width // 2,
                                 self.centerY + self.height // 2,
-                                fill = self.color
+                                fill=self.color
                                 )
         # first bar (up)
         canvas.create_rectangle(0, 0, self.horiBarLen, self.barWidth,
-                                fill=self.barColor, width = 0)
+                                fill=self.barColor, width=0)
         # second bar (down)
         canvas.create_rectangle(0, self.height - self.barWidth,
                                 self.horiBarLen, self.height,
-                                fill=self.barColor, width = 0)
+                                fill=self.barColor, width=0)
         # third bar (left)
         canvas.create_rectangle(0, self.barWidth,
                                 self.barWidth, self.vertBarLen,
-                                fill=self.barColor, width = 0)
+                                fill=self.barColor, width=0)
         # second bar (down)
         canvas.create_rectangle(self.width - self.barWidth, 0,
                                 self.width, self.height,
-                                fill=self.barColor, width = 0)
+                                fill=self.barColor, width=0)
+        # foot rail
+        canvas.create_line(self.width // 1.3, self.barWidth,
+                           self.width // 1.3, self.height - self.barWidth,
+                           fill="white", width=3)
 
+    def collide(self, ball):
 
-    # def drawPocket(self, data):
+        if ball.cx - ball.r < self.barWidth or ball.cx + ball.r > self.width\
+            - self.barWidth:
+            ball.dx = -ball.dx
+        if ball.cy - ball.r < self.barWidth or \
+                ball.cy + ball.r > self.height - self.barWidth:
+            ball.dy = -ball.dy
 
+    def initBalls(self, data):
+        example = Ball(100, 100, "pink")
+
+        data.balls.append(Ball(data.width // 4, data.height // 3 + 2 * example.r, "red"))
+        data.balls.append(Ball(data.width // 4, data.height // 3 + 4 * example.r, "red"))
+        data.balls.append(Ball(data.width // 4, data.height // 3 + 6 * example.r, "red"))
+        data.balls.append(Ball(data.width // 4, data.height // 3 + 8 * example.r, "red"))
+        data.balls.append(Ball(data.width // 4, data.height // 3 + 10 * example.r, "red"))
+        pass
 
 
 class pocket(object):
@@ -77,7 +90,6 @@ class pocket(object):
                                    data.height - self.r - self.barWidth))
 
 
-
     def draw(self, canvas):
 
         canvas.create_oval(self.x - self.r, self.y - self.r,
@@ -103,21 +115,21 @@ def init(data):
     data.pockets = []
     data.pocketInit = pocket(0, 0)
     data.pocketInit.addPockets(data)
-    data.balls = []
 
-    data.testBall = ball(data.width // 2, data.height // 2, 0, 0, "blue")
-    data.testBall2 = ball(data.width // 2 - 50, data.height // 2, 0, 0, "red")
-    data.testBall2.dx = 2
+    data.balls = []
+    data.table.initBalls(data)
+    data.ball = Ball(data.width // 2 , data.height // 2, "red")
+    data.testBall2 = Ball(data.width // 2 + 100, data.height // 2, "white", speed=10)
+    data.testBall2.dx = -1
     data.testBall2.dy = 0
-    data.balls.append(data.testBall)
+    data.balls.append(data.ball)
     data.balls.append(data.testBall2)
+    data.time = 0
 
     pass
 
 def mousePressed(event, data):
     # use event.x and event.y
-
-
 
     pass
 
@@ -126,9 +138,31 @@ def keyPressed(event, data):
     pass
 
 def timerFired(data):
-    data.testBall2.collide(data.testBall)
+    data.time += 1
+    if data.time % 5 == 0:
+        for ball in data.balls:
+            if ball.speed > 0:
+                ball.friction()
+            if ball.speed <= 0:
+                ball.speed = 0
+
+    collided = []
+    # if data.time % 2 == 0:
     for ball in data.balls:
+
         ball.move()
+
+        data.table.collide(ball)
+
+        for nextBall in data.balls:
+
+            if nextBall != ball:
+
+
+                ball.collide(nextBall)
+
+        collided.append(ball)
+
     pass
 
 def redrawAll(canvas, data):
@@ -145,7 +179,7 @@ def redrawAll(canvas, data):
 # use the run function as-is
 ####################################
 
-def run(width=300, height=300):
+def run(width=1000, height=700):
     def redrawAllWrapper(canvas, data):
         canvas.delete(ALL)
         canvas.create_rectangle(0, 0, data.width, data.height,
