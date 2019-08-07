@@ -60,12 +60,6 @@ def getDirection(cx, cy, dx, dy, r):
         print("head-on collision")
         direction = "Left"
 
-
-    # elif cx == dx and cy < dy:
-    #     direction = 3 / 2 * math.pi
-
-
-
     return direction
 
 
@@ -75,42 +69,26 @@ def setDirection(self, other, angle):
     if type(angle) != str:
 
         other.dx = math.cos(angle) + 0.2
-        other.dy = math.sin(angle) + 0.2
+        other.dy = -(math.sin(angle) + 0.2)
         self.dx = math.cos(angle - 0.5 * math.pi) # rotate 90 degrees
         self.dy = math.sin(angle - 0.5 * math.pi) # rotate 90 degrees
 
-        if 0 < angle < 0.5 * math.pi:
-            # 1 dimension
-            other.dx = other.dx
-            other.dy = -other.dy
+        if (0 < angle < 0.5 * math.pi) or\
+                (math.pi < angle < 1.5 * math.pi):
+            # 1 and 3 dimension
             self.dx = -self.dx
             self.dy = self.dy
 
-        elif 0.5 * math.pi < angle < math.pi:
-            # 2 dimension
-            other.dx = other.dx
-            other.dy = -other.dy
-            self.dx = self.dx
-            self.dy = -self.dy
-
-        elif math.pi < angle < 1.5 * math.pi:
-            # 3 dimension
-            other.dx = other.dx
-            other.dy = -other.dy
-            self.dx = -self.dx
-            self.dy = self.dy
-
-        elif 1.5 * math.pi < angle < 2 * math.pi:
-            # 4 dimension
-            other.dx = other.dx
-            other.dy = -other.dy
+        elif (0.5 * math.pi < angle < math.pi) or\
+                (1.5 * math.pi < angle < 2 * math.pi):
+            # 2 and 4 dimension
             self.dx = self.dx
             self.dy = -self.dy
 
     elif angle == "Up":
         # head-on collision
         other.dx = self.dx
-        other.dy = self.dy + 2
+        other.dy = self.dy + 1
 
     elif angle == "Down":
         # head-on collision
@@ -143,7 +121,7 @@ def setSpeed(self, other, angle=0):
     # as those before collision in the current colliding system, respectively.
 
     # bandage fix: The code below is not actual physics! Need to be fixed!
-    other.speed = self.speed * 0.8
+    other.speed = self.speed
     self.speed /= 4
 
 

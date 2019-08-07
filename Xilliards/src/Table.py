@@ -61,6 +61,7 @@ class table(object):
         data.balls.append(Ball(data.width // 4, data.height // 3 + 6 * example.r, "red"))
         data.balls.append(Ball(data.width // 4, data.height // 3 + 8 * example.r, "red"))
         data.balls.append(Ball(data.width // 4, data.height // 3 + 10 * example.r, "red"))
+        data.balls.append(Ball(data.width // 2 + 100, data.height // 2, "white"))
         pass
 
 

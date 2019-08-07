@@ -27,16 +27,10 @@ def init(data):
 
     data.balls = []
     data.table.initBalls(data)
-    data.ball = Ball(data.width // 2 , data.height // 2, "red")
-    data.testBall2 = Ball(data.width // 2 + 100, data.height // 2, "white")
-    data.testBall2.dx = 0
-    data.testBall2.dy = 0
-    data.balls.append(data.ball)
-    data.balls.append(data.testBall2)
+
     data.time = 0
 
-
-    data.cue = Cue(0, 0, 0, 0, 3)
+    data.cue = Cue(0, 0, 0, 0, 0)
 
     pass
 
@@ -95,6 +89,8 @@ def redrawAll(canvas, data):
         pocket.draw(canvas)
     for ball in data.balls:
         ball.draw(canvas)
+
+    data.cue.draw(canvas)
     pass
 
 ####################################
