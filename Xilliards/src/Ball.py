@@ -39,7 +39,7 @@ class Ball(object):
 
     def friction(self):
 
-        self.speed -= .2
+        self.speed -= .1
 
         pass
 

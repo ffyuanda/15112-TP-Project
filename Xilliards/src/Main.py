@@ -1,3 +1,2 @@
-from Table import  *
-
+from Animation import *
 run(1000, 500)

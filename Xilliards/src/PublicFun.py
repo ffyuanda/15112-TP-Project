@@ -141,7 +141,7 @@ def setSpeed(self, other, angle=0):
     # Since the conservation of momentum in physics, that the momentum
     # on the x axis and the momentum on the y axis should be the same
     # as those before collision in the current colliding system, respectively.
-    other.speed = self.speed / 2
+    other.speed = self.speed
     self.speed = 1
 
 
