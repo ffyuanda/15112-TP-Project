@@ -26,7 +26,6 @@ class Cue(object):
         lengthToCenter /= 2
         hitAngle = getDirection(event.x, event.y, ball.cx,
                                 ball.cy, lengthToCenter)
-
         setDirection(self, ball, hitAngle)
 
 

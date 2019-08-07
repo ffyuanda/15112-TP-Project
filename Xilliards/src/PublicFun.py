@@ -74,8 +74,8 @@ def setDirection(self, other, angle):
     # dy = math.sin(angle)
     if type(angle) != str:
 
-        other.dx = math.cos(angle)
-        other.dy = math.sin(angle)
+        other.dx = math.cos(angle) + 0.2
+        other.dy = math.sin(angle) + 0.2
         self.dx = math.cos(angle - 0.5 * math.pi) # rotate 90 degrees
         self.dy = math.sin(angle - 0.5 * math.pi) # rotate 90 degrees
 
@@ -141,8 +141,10 @@ def setSpeed(self, other, angle=0):
     # Since the conservation of momentum in physics, that the momentum
     # on the x axis and the momentum on the y axis should be the same
     # as those before collision in the current colliding system, respectively.
-    other.speed = self.speed
-    self.speed = 1
+
+    # bandage fix: The code below is not actual physics! Need to be fixed!
+    other.speed = self.speed * 0.8
+    self.speed /= 4
 
 
 

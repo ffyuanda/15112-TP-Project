@@ -36,7 +36,7 @@ def init(data):
     data.time = 0
 
 
-    data.cue = Cue(0, 0, 0, 0, 2)
+    data.cue = Cue(0, 0, 0, 0, 3)
 
     pass
 
@@ -58,7 +58,10 @@ def keyPressed(event, data):
 
 def timerFired(data):
     data.time += 1
-    if data.time % 5 == 0:
+    # friction control system:
+    # adjust the frequency the friction()
+    # function executed.
+    if data.time % 10 == 0:
         for ball in data.balls:
             if ball.speed > 0:
                 ball.friction()
@@ -124,7 +127,7 @@ def run(width=1000, height=700):
     data = Struct()
     data.width = width
     data.height = height
-    data.timerDelay = 7 # milliseconds
+    data.timerDelay = 5 # milliseconds
     root = Tk()
     init(data)
     # create the root and the canvas
