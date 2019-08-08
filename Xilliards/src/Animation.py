@@ -1,11 +1,8 @@
 from Table import *
 from Ball import *
-from PublicFun import *
+from PublicFunctions import *
+from Pocket import *
 from Cue import *
-
-
-
-
 
 # The run fucntions are cited from 15112 course notes:
 # https://www.cs.cmu.edu/~112-n19/notes/notes-animations-part1.html
@@ -14,25 +11,25 @@ from Cue import *
 
 from tkinter import *
 
+
 ####################################
 # customize these functions
 ####################################
 
 def init(data):
     # load data.xyz as appropriate
-    data.table = table(data, data.width, data.height)
+    data.table = Table(data, data.width, data.height)
+    data.cue = Cue(0, 0, 0, 0, 0)
     data.pockets = []
+    data.balls = []
     data.pocketInit = pocket(0, 0)
     data.pocketInit.addPockets(data)
+    data.table.addBalls(data)
 
-    data.balls = []
-    data.table.initBalls(data)
-
+    # used to keep record of the time space is pressed
+    data.spaceTime = 0
     data.time = 0
 
-    data.cue = Cue(0, 0, 0, 0, 0)
-
-    pass
 
 def mousePressed(event, data):
     # use event.x and event.y
@@ -40,15 +37,28 @@ def mousePressed(event, data):
     for ball in data.balls:
 
         if ball.color == "white":
-
             data.cue.hit(event, ball)
 
-
     pass
+
 
 def keyPressed(event, data):
     # use event.char and event.keysym
+    if event.keysym == "space":
+
+        data.spaceTime += 1
+        if data.spaceTime == 1:
+            pass
+
+        elif data.spaceTime == 2:
+
+            data.spaceTime = 0
+
+
+
+        print("YES")
     pass
+
 
 def timerFired(data):
     data.time += 1
@@ -73,13 +83,12 @@ def timerFired(data):
         for nextBall in data.balls:
 
             if nextBall != ball:
-
-
                 ball.collide(nextBall)
 
         collided.append(ball)
 
     pass
+
 
 def redrawAll(canvas, data):
     # draw in canvas
@@ -92,6 +101,7 @@ def redrawAll(canvas, data):
 
     data.cue.draw(canvas)
     pass
+
 
 ####################################
 # use the run function as-is
@@ -118,12 +128,14 @@ def run(width=1000, height=700):
         redrawAllWrapper(canvas, data)
         # pause, then call timerFired again
         canvas.after(data.timerDelay, timerFiredWrapper, canvas, data)
+
     # Set up data and call init
     class Struct(object): pass
+
     data = Struct()
     data.width = width
     data.height = height
-    data.timerDelay = 5 # milliseconds
+    data.timerDelay = 5  # milliseconds
     root = Tk()
     init(data)
     # create the root and the canvas
@@ -132,9 +144,9 @@ def run(width=1000, height=700):
     canvas.pack()
     # set up events
     root.bind("<Button-1>", lambda event:
-                            mousePressedWrapper(event, canvas, data))
+    mousePressedWrapper(event, canvas, data))
     root.bind("<Key>", lambda event:
-                            keyPressedWrapper(event, canvas, data))
+    keyPressedWrapper(event, canvas, data))
     timerFiredWrapper(canvas, data)
     # and launch the app
     root.mainloop()  # blocks until window is closed

@@ -1,6 +1,6 @@
 from Ball import *
 from Table import *
-from PublicFun import *
+from PublicFunctions import *
 
 class Cue(object):
 
@@ -10,10 +10,10 @@ class Cue(object):
         self.toeX = toeX
         self.toeY = toeY
         self.speed = speed
-        self.stickLength = 300
+        self.stickLength = 350
         # bandage fixes
-        self.dx = 0
-        self.dy = 0
+        # self.dx = 0
+        # self.dy = 0
 
     def hit(self, event, ball):
 
@@ -23,13 +23,16 @@ class Cue(object):
         # in order to get "r", which is half of the distance
         # between the hitting point and the center.
         lengthToCenter /= 2
+
         hitAngle = getDirection(event.x, event.y, ball.cx,
                                 ball.cy, lengthToCenter)
+
         setDirection(self, ball, hitAngle)
 
         # build the cue stick
-        print("hitAngle: " + str(hitAngle))
+        # print("hitAngle: " + str(hitAngle))
         self.getStickCoor(event, ball)
+
 
     def getStickCoor(self, event, ball):
 
@@ -50,7 +53,7 @@ class Cue(object):
 
         hitToBall = lengthToCenter * 2 - self.stickLength
 
-        print("ballDirection: " + str(ballAngle))
+        # print("ballDirection: " + str(ballAngle))
         self.headX = ball.cx + (ball.r + 10) * math.cos(ballAngle)
         self.headY = ball.cy - (ball.r + 10) * math.sin(ballAngle)
         self.toeX = event.x + hitToBall * math.cos(hitAngle)

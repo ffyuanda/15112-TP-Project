@@ -4,7 +4,6 @@ import math
 
 
 def distance(x1, y1, x2, y2):
-        
     return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
 
 
@@ -64,22 +63,21 @@ def getDirection(cx, cy, dx, dy, r):
 
 
 def setDirection(self, other, angle):
-
     # dy = math.sin(angle)
     if type(angle) != str:
 
         other.dx = math.cos(angle) + 0.2
         other.dy = -(math.sin(angle) + 0.2)
-        self.dx = math.cos(angle - 0.5 * math.pi) # rotate 90 degrees
-        self.dy = math.sin(angle - 0.5 * math.pi) # rotate 90 degrees
+        self.dx = math.cos(angle - 0.5 * math.pi)  # rotate 90 degrees
+        self.dy = math.sin(angle - 0.5 * math.pi)  # rotate 90 degrees
 
-        if (0 < angle < 0.5 * math.pi) or\
+        if (0 < angle < 0.5 * math.pi) or \
                 (math.pi < angle < 1.5 * math.pi):
             # 1 and 3 dimension
             self.dx = -self.dx
             self.dy = self.dy
 
-        elif (0.5 * math.pi < angle < math.pi) or\
+        elif (0.5 * math.pi < angle < math.pi) or \
                 (1.5 * math.pi < angle < 2 * math.pi):
             # 2 and 4 dimension
             self.dx = self.dx
@@ -105,11 +103,7 @@ def setDirection(self, other, angle):
         other.dx = self.dx + 1
         other.dy = self.dy
 
-
         pass
-
-
-
 
 
 def setSpeed(self, other, angle=0):
@@ -124,9 +118,4 @@ def setSpeed(self, other, angle=0):
     other.speed = self.speed
     self.speed /= 4
 
-
-
-
-
     pass
-

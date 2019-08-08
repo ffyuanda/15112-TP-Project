@@ -1,10 +1,10 @@
 from Ball import *
-from PublicFun import *
+from PublicFunctions import *
 
 
 # This is the function in control of the billiards table.
 
-class table(object):
+class Table(object):
 
     def __init__(self, data, width, height):
         self.width = width
@@ -46,58 +46,18 @@ class table(object):
 
     def collide(self, ball):
 
-        if ball.cx - ball.r < self.barWidth or ball.cx + ball.r > self.width\
-            - self.barWidth:
+        if ball.cx - ball.r < self.barWidth or ball.cx + ball.r > self.width \
+                - self.barWidth:
             ball.dx = -ball.dx
         if ball.cy - ball.r < self.barWidth or \
                 ball.cy + ball.r > self.height - self.barWidth:
             ball.dy = -ball.dy
 
-    def initBalls(self, data):
+    def addBalls(self, data):
         example = Ball(100, 100, "pink")
-
         data.balls.append(Ball(data.width // 4, data.height // 3 + 2 * example.r, "red"))
         data.balls.append(Ball(data.width // 4, data.height // 3 + 4 * example.r, "red"))
         data.balls.append(Ball(data.width // 4, data.height // 3 + 6 * example.r, "red"))
         data.balls.append(Ball(data.width // 4, data.height // 3 + 8 * example.r, "red"))
         data.balls.append(Ball(data.width // 4, data.height // 3 + 10 * example.r, "red"))
         data.balls.append(Ball(data.width // 2 + 100, data.height // 2, "white"))
-        pass
-
-
-class pocket(object):
-
-    def __init__(self, x, y):
-
-        self.x = x
-        self.y = y
-        self.r = 20
-        self.color = "black"
-        self.barWidth = 20
-
-
-    def addPockets(self, data):
-        data.pockets.append(pocket(self.barWidth + self.r,
-                                   self.barWidth + self.r))
-        data.pockets.append(pocket(data.width // 2,
-                                   self.barWidth + self.r))
-        data.pockets.append(pocket(data.width - self.r - self.barWidth,
-                                   self.r + self.barWidth))
-        data.pockets.append(pocket(self.r + self.barWidth,
-                                   data.height - self.r - self.barWidth))
-        data.pockets.append(pocket(data.width // 2,
-                                   data.height - self.r - self.barWidth))
-        data.pockets.append(pocket(data.width - self.r - self.barWidth,
-                                   data.height - self.r - self.barWidth))
-
-
-    def draw(self, canvas):
-
-        canvas.create_oval(self.x - self.r, self.y - self.r,
-                           self.x + self.r, self.y + self.r,
-                           fill = self.color)
-
-
-
-
-
