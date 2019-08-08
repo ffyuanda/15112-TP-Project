@@ -13,9 +13,6 @@ class Cue(object):
         self.stickLength = 350
         self.hitX = 0
         self.hitY = 0
-        # bandage fixes
-        # self.dx = 0
-        # self.dy = 0
 
     def hit(self, event, ball):
 

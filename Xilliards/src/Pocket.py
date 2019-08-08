@@ -1,6 +1,7 @@
 # This is the function in control of the pockets.
 from PublicFunctions import *
 
+
 class pocket(object):
 
     def __init__(self, x, y):
@@ -30,7 +31,6 @@ class pocket(object):
                            self.x + self.r, self.y + self.r,
                            fill=self.color)
 
-
     def score(self, data):
 
         for ball in data.balls:
@@ -38,9 +38,7 @@ class pocket(object):
             dis = distance(self.x, self.y, ball.cx, ball.cy)
 
             if dis <= self.r + 10:
-
                 data.balls.remove(ball)
                 data.score += 1
-
 
         pass

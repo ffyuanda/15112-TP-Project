@@ -50,6 +50,8 @@ def mousePressed(event, data):
 
     cueStickClickControl(event, data)
 
+    scratchReplace(event, data)
+
     pass
 
 
@@ -58,13 +60,13 @@ def keyPressed(event, data):
 
     cueStickSpaceControl(event, data)
 
-    restart(event, data)
+    if event.keysym == "r":
+        init(data)
 
     pass
 
 
 def timerFired(data):
-
     data.time += 1
 
     frictionControl(data)
@@ -77,16 +79,17 @@ def timerFired(data):
 
     pocketScoring(data)
 
-
     pass
 
 
 def redrawAll(canvas, data):
     # draw in canvas
     if data.gameOver:
-        canvas.create_text(data.width // 2, data.height // 2,
-                           text="Game Over"
-                                " Press 'r' to restart", font="Times 30 bold")
+        gameOverDraw(canvas, data)
+
+
+
+
     else:
         data.table.draw(canvas)
 
@@ -96,13 +99,13 @@ def redrawAll(canvas, data):
         for ball in data.balls:
             ball.draw(canvas)
 
-        if data.placeCueStick and data.spaceTime != 2:
-            data.cue.draw(data, canvas)
-
-            if data.spaceTime == 1:
-                data.cue.drawForce(data, canvas)
+        cueStickDraw(canvas, data)
 
         drawScore(data, canvas)
+
+        if data.scratchReplace:
+            scratchReplaceDraw(canvas, data)
+
     pass
 
 

@@ -56,12 +56,9 @@ def scratchControl(data):
     if data.cueBall.speed == 0:
 
         if data.scratched and data.hitted:
+
             data.scratchReplace = True
-
-            print(data.scratchReplace)
-
-    if data.scratchReplace:
-        data.balls.remove(data.cueBall)
+            data.scratched = False
 
 
 def pocketScoring(data):
@@ -87,12 +84,12 @@ def cueStickSpaceControl(event, data):
         if data.spaceTime == 1:
             # the first time press the space:
             # started to count the force, set the
-            # data.hitted = False, because the hit
+            # data.hitted to False, because the hit
             # is not conducted yet. And set the scratched
-            # == True, because the program wants to check
+            # to True, because the program wants to check
             # if the cue ball hit any of the balls, if so, then
             # in the collide() function in the Ball class, the
-            # scratched would be turned to False, so on and  so forth.
+            # scratched would be turned to False, so on and so forth.
 
             data.hitted = False
             data.forceCounter = 0
@@ -105,11 +102,6 @@ def cueStickSpaceControl(event, data):
             data.hitted = True
 
 
-def restart(event, data):
-
-    if event.keysym == "r":
-        init(data)
-
 
 ######################
 # mousePressed:
@@ -117,10 +109,47 @@ def restart(event, data):
 
 def cueStickClickControl(event, data):
 
-    if data.cueBall.speed == 0:
+    if data.cueBall.speed == 0 and data.scratchReplace is False:
         data.placeCueStick = True
         data.cue.getStickCoor(event, data.cueBall)
         data.cue.hitX = event.x
         data.cue.hitY = event.y
         data.spaceTime = 0
+
+def scratchReplace(event, data):
+
+    if data.scratchReplace:
+        data.cueBall.cx = event.x
+        data.cueBall.cy = event.y
+        data.scratchReplace = False
+
+
+#######################
+# redrawAll:
+#######################
+
+def cueStickDraw(canvas, data):
+
+    if data.placeCueStick and data.spaceTime != 2:
+        data.cue.draw(data, canvas)
+
+        if data.spaceTime == 1:
+            data.cue.drawForce(data, canvas)
+
+
+def gameOverDraw(canvas, data):
+
+    canvas.create_text(data.width // 2, data.height // 2,
+                       text="Game Over"
+                            " Press 'r' to restart", font="Times 30 bold")
+
+
+def scratchReplaceDraw(canvas, data):
+
+    canvas.create_text(data.width // 2, data.height // 2,
+                       text="Scratched!\n"
+                            "Click to replace the cue ball.",
+                       font="Times 30 bold")
+
+
 pass
