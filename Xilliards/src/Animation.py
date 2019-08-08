@@ -5,6 +5,7 @@ from Pocket import *
 from Cue import *
 from tkinter import *
 
+
 # The run fucntions are cited from 15112 course notes:
 # https://www.cs.cmu.edu/~112-n19/notes/notes-animations-part1.html
 
@@ -32,16 +33,20 @@ def init(data):
     data.forceCounter = 0
     data.placeCueStick = False
 
+    data.score = 0
+    data.gameOver = False
+
     data.time = 0
 
 
 def mousePressed(event, data):
     # use event.x and event.y
-    data.placeCueStick = True
-    data.cue.getStickCoor(event, data.cueBall)
-    data.cue.hitX = event.x
-    data.cue.hitY = event.y
-    data.spaceTime = 0
+    if data.cueBall.speed == 0:
+        data.placeCueStick = True
+        data.cue.getStickCoor(event, data.cueBall)
+        data.cue.hitX = event.x
+        data.cue.hitY = event.y
+        data.spaceTime = 0
     # print(data.placeCueStick)
 
     pass
@@ -63,11 +68,15 @@ def keyPressed(event, data):
             data.cue.speed = data.forceCounter / 25
             data.cue.hit(event, data.cueBall)
 
+    if event.keysym == "r":
+        init(data)
+
     pass
 
 
 def timerFired(data):
     data.time += 1
+
     # friction control system:
     # adjust the frequency the friction()
     # function executed.
@@ -76,18 +85,19 @@ def timerFired(data):
         for ball in data.balls:
 
             if ball.speed > 0:
-
                 ball.friction()
 
             if ball.speed <= 0:
-
                 ball.speed = 0
 
+    # cue stick control system:
+    # add the forceCounter by time
     if data.time % 5 == 0 and data.placeCueStick:
-
         data.forceCounter += 1
 
-
+    # balls colliding system:
+    # loop through each ball in the balls list
+    # and mutually check the collision state
     for ball in data.balls:
 
         ball.move()
@@ -97,31 +107,48 @@ def timerFired(data):
         for nextBall in data.balls:
 
             if nextBall != ball:
-
                 ball.collide(nextBall)
+
+    # pocket scoring system:
+
+    for pocket in data.pockets:
+        pocket.score(data)
+
+    if data.cueBall not in data.balls:
+        data.gameOver = True
 
     pass
 
 
 def redrawAll(canvas, data):
     # draw in canvas
-    data.table.draw(canvas)
+    if data.gameOver:
+        canvas.create_text(data.width // 2, data.height // 2,
+                           text="Game Over"
+                                " Press 'r' to restart", font="Times 30 bold")
+    else:
+        data.table.draw(canvas)
 
-    for pocket in data.pockets:
-        pocket.draw(canvas)
-    for ball in data.balls:
-        ball.draw(canvas)
+        for pocket in data.pockets:
+            pocket.draw(canvas)
 
-    if data.placeCueStick and data.spaceTime != 2:
-        data.cue.draw(data, canvas)
-        if data.spaceTime == 1:
-            data.cue.drawForce(data, canvas)
+        for ball in data.balls:
+            ball.draw(canvas)
+
+        if data.placeCueStick and data.spaceTime != 2:
+            data.cue.draw(data, canvas)
+
+            if data.spaceTime == 1:
+                data.cue.drawForce(data, canvas)
+
+        drawScore(data, canvas)
     pass
 
 
 ####################################
 # use the run function as-is
-####################################
+##############################
+# ######
 
 def run(width=1000, height=700):
     def redrawAllWrapper(canvas, data):

@@ -1,5 +1,5 @@
 # This is the function in control of the pockets.
-
+from PublicFunctions import *
 
 class pocket(object):
 
@@ -25,6 +25,22 @@ class pocket(object):
                                    data.height - self.r - self.barWidth))
 
     def draw(self, canvas):
+
         canvas.create_oval(self.x - self.r, self.y - self.r,
                            self.x + self.r, self.y + self.r,
                            fill=self.color)
+
+
+    def score(self, data):
+
+        for ball in data.balls:
+
+            dis = distance(self.x, self.y, ball.cx, ball.cy)
+
+            if dis <= self.r + 10:
+
+                data.balls.remove(ball)
+                data.score += 1
+
+
+        pass

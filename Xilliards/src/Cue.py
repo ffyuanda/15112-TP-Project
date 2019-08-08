@@ -31,9 +31,9 @@ class Cue(object):
 
         setDirection(self, ball, hitAngle)
 
+
         # build the cue stick
         # print("hitAngle: " + str(hitAngle))
-
 
 
     def getStickCoor(self, event, ball):

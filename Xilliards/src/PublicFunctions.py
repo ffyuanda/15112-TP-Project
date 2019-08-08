@@ -66,8 +66,8 @@ def setDirection(self, other, angle):
     # dy = math.sin(angle)
     if type(angle) != str:
 
-        other.dx = math.cos(angle) + 0.2
-        other.dy = -(math.sin(angle) + 0.2)
+        other.dx = math.cos(angle)
+        other.dy = -math.sin(angle)
         self.dx = math.cos(angle - 0.5 * math.pi)  # rotate 90 degrees
         self.dy = math.sin(angle - 0.5 * math.pi)  # rotate 90 degrees
 
@@ -119,3 +119,9 @@ def setSpeed(self, other, angle=0):
     self.speed /= 4
 
     pass
+
+def drawScore(data, canvas):
+
+    canvas.create_text(40, 40,
+                       text="Score: %d" % data.score,
+                       fill="blue", font="Times 20 bold")
