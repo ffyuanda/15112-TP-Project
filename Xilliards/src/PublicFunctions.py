@@ -74,14 +74,14 @@ def setDirection(self, other, angle):
         if (0 < angle < 0.5 * math.pi) or \
                 (math.pi < angle < 1.5 * math.pi):
             # 1 and 3 dimension
-            self.dx = -self.dx
-            self.dy = self.dy
+            self.dx = self.dx
+            self.dy = -self.dy
 
         elif (0.5 * math.pi < angle < math.pi) or \
                 (1.5 * math.pi < angle < 2 * math.pi):
             # 2 and 4 dimension
-            self.dx = self.dx
-            self.dy = -self.dy
+            self.dx = -self.dx
+            self.dy = self.dy
 
     elif angle == "Up":
         # head-on collision
@@ -115,7 +115,14 @@ def setSpeed(self, other, angle=0):
     # as those before collision in the current colliding system, respectively.
 
     # bandage fix: The code below is not actual physics! Need to be fixed!
+    otherSpeedX = 0
+    otherSpeedY = 0
+
+    selfSpeedX = 0
+    selfSpeedY = 0
+
     other.speed = self.speed
+
     self.speed /= 4
 
     pass
