@@ -6,12 +6,7 @@ from Cue import *
 from tkinter import *
 from AnimationFunctions import *
 
-
-# The run fucntions are cited from 15112 course notes:
-# https://www.cs.cmu.edu/~112-n19/notes/notes-animations-part1.html
-
 # Basic Animation Framework
-
 
 ####################################
 # customize these functions
@@ -88,8 +83,6 @@ def redrawAll(canvas, data):
         gameOverDraw(canvas, data)
 
 
-
-
     else:
         data.table.draw(canvas)
 
@@ -104,16 +97,13 @@ def redrawAll(canvas, data):
         drawScore(data, canvas)
 
         if data.scratchReplace:
+
             scratchReplaceDraw(canvas, data)
 
     pass
 
-
-####################################
-# use the run function as-is
-##############################
-# ######
-
+# The run fucntions are cited from 15112 course notes:
+# https://www.cs.cmu.edu/~112-n19/notes/notes-animations-part1.html
 def run(width=1000, height=700):
     def redrawAllWrapper(canvas, data):
         canvas.delete(ALL)

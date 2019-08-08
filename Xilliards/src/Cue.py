@@ -70,7 +70,7 @@ class Cue(object):
         canvas.create_text(data.width // 2, data.height // 2,
                            text="Force: %d N" % (data.forceCounter),
                            fill="black",
-                           font="Times 30 bold italic",
+                           font="Helvetica 30 bold italic",
                            )
 
 

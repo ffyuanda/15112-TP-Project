@@ -122,6 +122,6 @@ def setSpeed(self, other, angle=0):
 
 
 def drawScore(data, canvas):
-    canvas.create_text(40, 40,
+    canvas.create_text(data.width // 2, 80,
                        text="Score: %d" % data.score,
-                       fill="blue", font="Times 20 bold")
+                       fill="grey", font="Helvetica 30 bold italic")
