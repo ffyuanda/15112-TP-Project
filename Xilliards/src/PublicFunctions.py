@@ -125,3 +125,11 @@ def drawScore(data, canvas):
     canvas.create_text(40, 40,
                        text="Score: %d" % data.score,
                        fill="blue", font="Times 20 bold")
+
+
+def checkScratch(data):
+
+
+
+
+    pass

@@ -4,6 +4,7 @@ from PublicFunctions import *
 from Pocket import *
 from Cue import *
 from tkinter import *
+from AnimationFunctions import *
 
 
 # The run fucntions are cited from 15112 course notes:
@@ -28,94 +29,54 @@ def init(data):
     data.cueBall = Ball(data.width // 2 + 100, data.height // 2, "white")
     data.balls.append(data.cueBall)
 
-    # used to keep record of the time space is pressed
+    # used to keep record of the times space is pressed
     data.spaceTime = 0
     data.forceCounter = 0
     data.placeCueStick = False
 
     data.score = 0
+
+    # game state control
     data.gameOver = False
+    data.scratched = None
+    data.hitted = False
+    data.scratchReplace = False
 
     data.time = 0
 
 
 def mousePressed(event, data):
     # use event.x and event.y
-    if data.cueBall.speed == 0:
-        data.placeCueStick = True
-        data.cue.getStickCoor(event, data.cueBall)
-        data.cue.hitX = event.x
-        data.cue.hitY = event.y
-        data.spaceTime = 0
-    # print(data.placeCueStick)
+
+    cueStickClickControl(event, data)
 
     pass
 
 
 def keyPressed(event, data):
     # use event.char and event.keysym
-    if event.keysym == "space":
 
-        data.spaceTime += 1
+    cueStickSpaceControl(event, data)
 
-        if data.spaceTime == 1:
-
-            data.forceCounter = 0
-
-
-        elif data.spaceTime == 2:
-
-            data.cue.speed = data.forceCounter / 25
-            data.cue.hit(event, data.cueBall)
-
-    if event.keysym == "r":
-        init(data)
+    restart(event, data)
 
     pass
 
 
 def timerFired(data):
+
     data.time += 1
 
-    # friction control system:
-    # adjust the frequency the friction()
-    # function executed.
-    if data.time % 10 == 0:
+    frictionControl(data)
 
-        for ball in data.balls:
+    cueStickControl(data)
 
-            if ball.speed > 0:
-                ball.friction()
+    ballsCollision(data)
 
-            if ball.speed <= 0:
-                ball.speed = 0
+    scratchControl(data)
 
-    # cue stick control system:
-    # add the forceCounter by time
-    if data.time % 5 == 0 and data.placeCueStick:
-        data.forceCounter += 1
+    pocketScoring(data)
 
-    # balls colliding system:
-    # loop through each ball in the balls list
-    # and mutually check the collision state
-    for ball in data.balls:
-
-        ball.move()
-
-        data.table.collide(ball)
-
-        for nextBall in data.balls:
-
-            if nextBall != ball:
-                ball.collide(nextBall)
-
-    # pocket scoring system:
-
-    for pocket in data.pockets:
-        pocket.score(data)
-
-    if data.cueBall not in data.balls:
-        data.gameOver = True
 
     pass
 

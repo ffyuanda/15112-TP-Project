@@ -18,13 +18,14 @@ class Ball(object):
 
         pass
 
-    def collide(self, other, x=0, y=0):
+    def collide(self, other, data, x=0, y=0):
         # collision engine
         # self should be the active ball
 
         if distance(self.cx, self.cy, other.cx, other.cy) < 2 * self.r:
-            # if collide
-            # other.cy += 4
+
+            data.scratched = False
+
             angle = getDirection(self.cx, self.cy, other.cx, other.cy, self.r)
             # print(angle)
             setDirection(self, other, angle)
