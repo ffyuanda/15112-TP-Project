@@ -3,13 +3,12 @@ from Ball import *
 from PublicFunctions import *
 from Pocket import *
 from Cue import *
+from tkinter import *
 
 # The run fucntions are cited from 15112 course notes:
 # https://www.cs.cmu.edu/~112-n19/notes/notes-animations-part1.html
 
 # Basic Animation Framework
-
-from tkinter import *
 
 
 ####################################
@@ -25,19 +24,25 @@ def init(data):
     data.pocketInit = pocket(0, 0)
     data.pocketInit.addPockets(data)
     data.table.addBalls(data)
+    data.cueBall = Ball(data.width // 2 + 100, data.height // 2, "white")
+    data.balls.append(data.cueBall)
 
     # used to keep record of the time space is pressed
     data.spaceTime = 0
+    data.forceCounter = 0
+    data.placeCueStick = False
+
     data.time = 0
 
 
 def mousePressed(event, data):
     # use event.x and event.y
-
-    for ball in data.balls:
-
-        if ball.color == "white":
-            data.cue.hit(event, ball)
+    data.placeCueStick = True
+    data.cue.getStickCoor(event, data.cueBall)
+    data.cue.hitX = event.x
+    data.cue.hitY = event.y
+    data.spaceTime = 0
+    # print(data.placeCueStick)
 
     pass
 
@@ -47,16 +52,17 @@ def keyPressed(event, data):
     if event.keysym == "space":
 
         data.spaceTime += 1
+
         if data.spaceTime == 1:
-            pass
+
+            data.forceCounter = 0
+
 
         elif data.spaceTime == 2:
 
-            data.spaceTime = 0
+            data.cue.speed = data.forceCounter / 25
+            data.cue.hit(event, data.cueBall)
 
-
-
-        print("YES")
     pass
 
 
@@ -66,14 +72,22 @@ def timerFired(data):
     # adjust the frequency the friction()
     # function executed.
     if data.time % 10 == 0:
+
         for ball in data.balls:
+
             if ball.speed > 0:
+
                 ball.friction()
+
             if ball.speed <= 0:
+
                 ball.speed = 0
 
-    collided = []
-    # if data.time % 2 == 0:
+    if data.time % 5 == 0 and data.placeCueStick:
+
+        data.forceCounter += 1
+
+
     for ball in data.balls:
 
         ball.move()
@@ -83,9 +97,8 @@ def timerFired(data):
         for nextBall in data.balls:
 
             if nextBall != ball:
-                ball.collide(nextBall)
 
-        collided.append(ball)
+                ball.collide(nextBall)
 
     pass
 
@@ -99,7 +112,10 @@ def redrawAll(canvas, data):
     for ball in data.balls:
         ball.draw(canvas)
 
-    data.cue.draw(canvas)
+    if data.placeCueStick and data.spaceTime != 2:
+        data.cue.draw(data, canvas)
+        if data.spaceTime == 1:
+            data.cue.drawForce(data, canvas)
     pass
 
 
