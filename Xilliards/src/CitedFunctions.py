@@ -58,3 +58,48 @@ def rgbString(red, green, blue):
 #     # and launch the app
 #     root.mainloop()  # blocks until window is closed
 #     print("bye!")
+
+
+
+
+# The numpy package is cited from the scientific calculation set
+# NumPy under the Scipy scientific calculation kit.
+# The NumPy's website is https://numpy.org/
+# And the Scipy's website is https://scipy.org/
+
+def setSpeed(self, other, speedX=0, speedY=0):
+    # angle is the angle that created by the getDirection function
+
+    # Physics:
+    # Since the conservation of momentum in physics, that the momentum
+    # on the x axis and the momentum on the y axis should be the same
+    # as those before collision in the current colliding system, respectively.
+
+    # The formula for the system of equations below is
+    # other.dx * other.speed + self.dx * self.speed = speedX
+    # other.dy * other.speed + self.dy * self.speed = speedY
+    # In the equations above, dx and dy could be seen as vectors
+    # of the two balls in the system at the instant of collision.
+    # And the speed is not the actual vector speed, it is an attribute
+    # which belongs to each ball. The speedX and speedY is the original
+    # self ball's vector before collision. Therefore, by listing this
+    # equation, the momentum is conserved due to the conservation of momentum.
+
+    # The numpy package is cited from the scientific calculation set
+    # NumPy under the Scipy scientific calculation kit.
+    # The NumPy's website is https://numpy.org/
+    # And the Scipy's website is https://scipy.org/
+
+    buffer = 0.2
+    nrow1 = [other.dx, self.dx]
+    nrow2 = [other.dy, self.dy]
+
+    nmat = np.array([nrow1, nrow2])
+    cons = np.array([speedX, speedY])
+
+    answer = linalg.solve(nmat, cons)
+
+    other.speed = answer[0] + buffer
+    self.speed = answer[1] - buffer
+
+    pass
