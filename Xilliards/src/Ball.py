@@ -30,7 +30,7 @@ class Ball(object):
             data.scratched = False
 
             angle = getDirection(self.cx, self.cy, other.cx, other.cy, self.r)
-            print(angle)
+            # print(angle)
             setDirection(self, other, angle)
             setSpeed(self, other, speedX, speedY)
             pass

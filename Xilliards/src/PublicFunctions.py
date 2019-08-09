@@ -27,48 +27,48 @@ def getDirection(cx, cy, dx, dy, r):
     if cx > dx and cy < dy:
         # 3 dimension glancing collision (sin)
         # other relative to self
-        print("3 dimension with sin")
+        # print("3 dimension with sin")
 
         direction = math.asin((dy - cy) / (2 * r)) + math.pi
 
     elif cx < dx and cy > dy:
         # 1 dimension glancing collision (sin)
         # other relative to self
-        print("1 dimension with sin")
+        # print("1 dimension with sin")
         direction = -math.asin((dy - cy) / (2 * r))
 
     elif cx < dx and cy < dy:
         # 4 dimension glancing collision (sin)
         # other relative to self
-        print("4 dimension with cos")
+        # print("4 dimension with cos")
         direction = 2 * math.pi - math.acos((dx - cx) / (2 * r))
 
 
     elif (cx > dx and cy > dy):
         # 2 dimension glancing collision (cos)
         # other relative to self
-        print("2 dimension with cos")
+        # print("2 dimension with cos")
         direction = math.acos((dx - cx) / (2 * r))
 
     elif cx == dx and cy < dy:
         # self above the other
-        print("head-on collision")
+        # print("head-on collision")
         direction = "Up"
 
     elif cx == dx and cy > dy:
         # self under the other
-        print("head-on collision")
+        # print("head-on collision")
         direction = "Down"
 
 
     elif cx > dx and cy == dy:
         # self at the right of the other
-        print("head-on collision")
+        # print("head-on collision")
         direction = "Right"
 
     elif cx < dx and cy == dy:
         # self at the left of the other
-        print("head-on collision")
+        # print("head-on collision")
         direction = "Left"
 
     return direction
@@ -141,7 +141,7 @@ def setSpeed(self, other, speedX=0, speedY=0):
     # The NumPy's website is https://numpy.org/
     # And the Scipy's website is https://scipy.org/
 
-    buffer = 0.2
+    buffer = 0.3
     nrow1 = [other.dx, self.dx]
     nrow2 = [other.dy, self.dy]
 
@@ -152,6 +152,8 @@ def setSpeed(self, other, speedX=0, speedY=0):
 
     other.speed = answer[0] + buffer
     self.speed = answer[1] - buffer
+
+    print(other.speed, self.speed)
 
     pass
 
