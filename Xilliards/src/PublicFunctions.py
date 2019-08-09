@@ -16,8 +16,6 @@ def distance(x1, y1, x2, y2):
 # cy would likely be changed.
 
 
-
-
 def getDirection(cx, cy, dx, dy, r):
     # cx and cy is the self's position, which is the active ball.
     # dx and dy is the other's position, which is the reactive ball.
@@ -141,7 +139,7 @@ def setSpeed(self, other, speedX=0, speedY=0):
     # The NumPy's website is https://numpy.org/
     # And the Scipy's website is https://scipy.org/
 
-    buffer = 0.3
+    buffer = 0.1
     nrow1 = [other.dx, self.dx]
     nrow2 = [other.dy, self.dy]
 
@@ -151,7 +149,7 @@ def setSpeed(self, other, speedX=0, speedY=0):
     answer = linalg.solve(nmat, cons)
 
     other.speed = answer[0] + buffer
-    self.speed = answer[1] - buffer
+    self.speed = answer[1]
 
     print(other.speed, self.speed)
 

@@ -14,13 +14,15 @@ from AnimationFunctions import *
 
 def init(data):
     # load data.xyz as appropriate
+    data.testMode = False
+
     data.table = Table(data, data.width, data.height)
     data.cue = Cue(0, 0, 0, 0, 0)
     data.pockets = []
     data.balls = []
     data.pocketInit = pocket(0, 0)
     data.pocketInit.addPockets(data)
-    data.table.addBalls(data)
+    data.table.addBalls(data, data.testMode)
     data.cueBall = Ball(data.width // 2 + 100, data.height // 2, "white")
     data.balls.append(data.cueBall)
 
@@ -38,6 +40,7 @@ def init(data):
     data.scratchReplace = False
 
     data.time = 0
+
 
 
 def mousePressed(event, data):
