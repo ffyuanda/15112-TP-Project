@@ -51,12 +51,17 @@ class Table(object):
 
     def collide(self, ball):
 
+        tableSpeedDeduction = 0.0
+
         if ball.cx - ball.r < self.barWidth or ball.cx + ball.r > self.width \
                 - self.barWidth:
             ball.dx = -ball.dx
+            ball.speed -= tableSpeedDeduction
+
         if ball.cy - ball.r < self.barWidth or \
                 ball.cy + ball.r > self.height - self.barWidth:
             ball.dy = -ball.dy
+            ball.speed -= tableSpeedDeduction
 
     def addBalls(self, data):
 

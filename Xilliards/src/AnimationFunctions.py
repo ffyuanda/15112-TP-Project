@@ -47,7 +47,8 @@ def cueStickControl(data):
     # cue stick control system:
     # add the forceCounter by time
     if data.time % 5 == 0 and data.placeCueStick:
-        data.forceCounter += 1
+        if data.forceCounter < 100:
+            data.forceCounter += 1
 
 
 def scratchControl(data):
@@ -97,7 +98,10 @@ def cueStickSpaceControl(event, data):
 
         elif data.spaceTime == 2:
 
-            data.cue.speed = data.forceCounter / 25
+            # here you can adjust the relation
+            # between the forceCounter and the actual
+            # force, the bigger the number, the less the force, vice versa.
+            data.cue.speed = data.forceCounter / 20
             data.cue.hit(event, data.cueBall)
             data.hitted = True
 

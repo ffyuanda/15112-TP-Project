@@ -22,6 +22,9 @@ class Ball(object):
         # collision engine
         # self should be the active ball
 
+        speedX = self.dx * self.speed
+        speedY = self.dy * self.speed
+
         if distance(self.cx, self.cy, other.cx, other.cy) < 2 * self.r:
 
             data.scratched = False
@@ -29,11 +32,11 @@ class Ball(object):
             angle = getDirection(self.cx, self.cy, other.cx, other.cy, self.r)
             print(angle)
             setDirection(self, other, angle)
-            setSpeed(self, other)
+            setSpeed(self, other, speedX, speedY)
             pass
 
     def friction(self):
-        self.speed -= .1
+        self.speed -= .07
 
         pass
 

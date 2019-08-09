@@ -1,10 +1,21 @@
 from Ball import *
 from Table import *
+from numpy import linalg
+import numpy as np
+
 import math
 
 
 def distance(x1, y1, x2, y2):
     return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
+
+# speedX and speedY are used to
+# record the original value of the
+# self ball in the function getDirection and
+# setDirection and setSpeed, cause the cx and
+# cy would likely be changed.
+
+
 
 
 def getDirection(cx, cy, dx, dy, r):
@@ -12,6 +23,7 @@ def getDirection(cx, cy, dx, dy, r):
     # dx and dy is the other's position, which is the reactive ball.
     # "dimension" means from other to self (other in self's X dimension).
     direction = 0
+
     if cx > dx and cy < dy:
         # 3 dimension glancing collision (sin)
         # other relative to self
@@ -106,7 +118,7 @@ def setDirection(self, other, angle):
         pass
 
 
-def setSpeed(self, other, angle=0):
+def setSpeed(self, other, speedX=0, speedY=0):
     # angle is the angle that created by the getDirection function
 
     # Physics:
@@ -115,15 +127,23 @@ def setSpeed(self, other, angle=0):
     # as those before collision in the current colliding system, respectively.
 
     # bandage fix: The code below is not actual physics! Need to be fixed!
-    otherSpeedX = 0
-    otherSpeedY = 0
+    buffer = 0.2
+    nrow1 = [other.dx, self.dx]
+    nrow2 = [other.dy, self.dy]
 
-    selfSpeedX = 0
-    selfSpeedY = 0
+    nmat = np.array([nrow1, nrow2])
+    cons = np.array([speedX, speedY])
 
-    other.speed = self.speed
+    answer = linalg.solve(nmat, cons)
 
-    self.speed /= 4
+    other.speed = answer[0] + buffer
+    self.speed = answer[1] - buffer
+
+    print(other.speed, self.speed)
+
+    # other.speed = self.speed
+    #
+    # self.speed /= 4
 
     pass
 
