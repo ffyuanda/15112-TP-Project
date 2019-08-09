@@ -1,23 +1,28 @@
 from Ball import *
-from PublicFun import *
+from PublicFunctions import *
+from CitedFunctions import *
 
 
 # This is the function in control of the billiards table.
 
-class table(object):
+class Table(object):
 
     def __init__(self, data, width, height):
         self.width = width
         self.height = height
         self.centerX = data.width // 2
         self.centerY = data.height // 2
-        self.color = "green"
+        # The rgbString fucntions are cited from 15112 course notes:
+        # https://www.cs.cmu.edu/~112-n19/notes/notes-graphics.html
+        self.color = rgbString(50, 88, 59)
         self.horiBarLen = data.width
         self.vertBarLen = data.height
         self.barWidth = 25
-        self.barColor = "brown"
+        self.barColor = rgbString(76, 39, 10)
 
     def draw(self, canvas):
+
+        # table
         canvas.create_rectangle(self.centerX - self.width // 2,
                                 self.centerY - self.height // 2,
                                 self.centerX + self.width // 2,
@@ -46,58 +51,122 @@ class table(object):
 
     def collide(self, ball):
 
-        if ball.cx - ball.r < self.barWidth or ball.cx + ball.r > self.width\
-            - self.barWidth:
+        tableSpeedDeduction = 0.0
+
+        if ball.cx - ball.r < self.barWidth or ball.cx + ball.r > self.width \
+                - self.barWidth:
             ball.dx = -ball.dx
+            ball.speed -= tableSpeedDeduction
+
         if ball.cy - ball.r < self.barWidth or \
                 ball.cy + ball.r > self.height - self.barWidth:
             ball.dy = -ball.dy
+            ball.speed -= tableSpeedDeduction
 
-    def initBalls(self, data):
+    def addBalls(self, data, testMode):
+
         example = Ball(100, 100, "pink")
+        # adjust is used to prevent balls stuck into each other
+        adjust = 1.5
 
-        data.balls.append(Ball(data.width // 4, data.height // 3 + 2 * example.r, "red"))
-        data.balls.append(Ball(data.width // 4, data.height // 3 + 4 * example.r, "red"))
-        data.balls.append(Ball(data.width // 4, data.height // 3 + 6 * example.r, "red"))
-        data.balls.append(Ball(data.width // 4, data.height // 3 + 8 * example.r, "red"))
-        data.balls.append(Ball(data.width // 4, data.height // 3 + 10 * example.r, "red"))
-        data.balls.append(Ball(data.width // 2 + 100, data.height // 2, "white"))
-        pass
+        # customColor is used to pick RGB value from
+        # real pool balls.
+        # The rgbString fucntions are cited from 15112 course notes:
+        # https://www.cs.cmu.edu/~112-n19/notes/notes-graphics.html
 
+        # first column:
 
-class pocket(object):
+        firstColumnGap = 2 * example.r
 
-    def __init__(self, x, y):
+        customColor = rgbString(246, 140, 51)
+        data.balls.append(Ball(data.width // 4,
+                               data.height // 3 + 1 * firstColumnGap + adjust,
+                               customColor))
+        if testMode == False:
+            customColor = rgbString(13, 34, 106)
+            data.balls.append(Ball(data.width // 4,
+                                   data.height // 3 + 2 * firstColumnGap + 2 * adjust,
+                                   customColor))
 
-        self.x = x
-        self.y = y
-        self.r = 20
-        self.color = "black"
-        self.barWidth = 20
+            customColor = rgbString(239, 18, 14)
+            data.balls.append(Ball(data.width // 4,
+                                   data.height // 3 + 3 * firstColumnGap + 3 * adjust,
+                                   customColor))
 
+            customColor = rgbString(47, 34, 87)
+            data.balls.append(Ball(data.width // 4,
+                                   data.height // 3 + 4 * firstColumnGap + 4 * adjust,
+                                   customColor))
 
-    def addPockets(self, data):
-        data.pockets.append(pocket(self.barWidth + self.r,
-                                   self.barWidth + self.r))
-        data.pockets.append(pocket(data.width // 2,
-                                   self.barWidth + self.r))
-        data.pockets.append(pocket(data.width - self.r - self.barWidth,
-                                   self.r + self.barWidth))
-        data.pockets.append(pocket(self.r + self.barWidth,
-                                   data.height - self.r - self.barWidth))
-        data.pockets.append(pocket(data.width // 2,
-                                   data.height - self.r - self.barWidth))
-        data.pockets.append(pocket(data.width - self.r - self.barWidth,
-                                   data.height - self.r - self.barWidth))
+            customColor = rgbString(255, 61, 35)
+            data.balls.append(Ball(data.width // 4,
+                                   data.height // 3 + 5 * firstColumnGap + 5 * adjust,
+                                   customColor))
 
+            # second column:
+            # calculated by trigonometry
+            secondRowGap = (3 ** 0.5) * example.r + 2 * adjust
 
-    def draw(self, canvas):
+            customColor = rgbString(29, 55, 38)
+            data.balls.append(Ball(data.width // 4 + secondRowGap,
+                                   data.height // 3 + 3 * example.r + adjust,
+                                   customColor))
 
-        canvas.create_oval(self.x - self.r, self.y - self.r,
-                           self.x + self.r, self.y + self.r,
-                           fill = self.color)
+            customColor = rgbString(144, 18, 4)
+            data.balls.append(Ball(data.width // 4 + secondRowGap,
+                                   data.height // 3 + 5 * example.r + 2 * adjust,
+                                   customColor))
 
+            customColor = rgbString(239, 18, 14)
+            data.balls.append(Ball(data.width // 4 + secondRowGap,
+                                   data.height // 3 + 7 * example.r + 3 * adjust,
+                                   customColor))
 
+            customColor = rgbString(246, 140, 51)
+            data.balls.append(Ball(data.width // 4 + secondRowGap,
+                                   data.height // 3 + 9 * example.r + 4 * adjust,
+                                   customColor))
+
+            # third column:
+            thirdRowGap = 2 * (3 ** 0.5) * example.r + 3 * adjust
+
+            customColor = rgbString(13, 34, 106)
+            data.balls.append(Ball(data.width // 4 + thirdRowGap,
+                                   data.height // 3 + 4 * example.r + adjust,
+                                   customColor))
+
+            customColor = rgbString(8, 11, 15)
+            data.balls.append(Ball(data.width // 4 + thirdRowGap,
+                                   data.height // 3 + 6 * example.r + 2 * adjust,
+                                   customColor))
+
+            customColor = rgbString(47, 34, 87)
+            data.balls.append(Ball(data.width // 4 + thirdRowGap,
+                                   data.height // 3 + 8 * example.r + 3 * adjust,
+                                   customColor))
+
+            #forth column:
+
+            forthRowGap = 3 * (3 ** 0.5) * example.r + 5 * adjust
+
+            customColor = rgbString(255, 61, 35)
+            data.balls.append(Ball(data.width // 4 + forthRowGap,
+                                   data.height // 3 + 5 * example.r + adjust,
+                                   customColor))
+
+            customColor = rgbString(29, 55, 38)
+            data.balls.append(Ball(data.width // 4 + forthRowGap,
+                                   data.height // 3 + 7 * example.r + 2 * adjust,
+                                   customColor))
+
+            #fifth column:
+
+            fifthRowGap = 4 * (3 ** 0.5) * example.r + 6 * adjust
+
+            customColor = rgbString(144, 18, 4)
+            data.balls.append(Ball(data.width // 4 + fifthRowGap,
+                                   data.height // 3 + 6 * example.r + adjust,
+                                   customColor))
 
 
 
