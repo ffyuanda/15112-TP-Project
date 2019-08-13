@@ -46,7 +46,7 @@ def cueStickControl(data):
 
     # cue stick control system:
     # add the forceCounter by time
-    if data.time % 5 == 0 and data.placeCueStick:
+    if data.time % 3 == 0 and data.placeCueStick:
         if data.forceCounter < 100:
             data.forceCounter += 1
 
