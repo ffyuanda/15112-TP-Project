@@ -14,7 +14,7 @@ from AnimationFunctions import *
 
 def init(data):
     # load data.xyz as appropriate
-    data.testMode = False
+    data.testMode = True
 
     data.table = Table(data, data.width, data.height)
     data.cue = Cue(0, 0, 0, 0, 0)
